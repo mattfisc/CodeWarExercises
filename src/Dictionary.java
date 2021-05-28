@@ -10,55 +10,61 @@ public class Dictionary {
     public String findMostSimilar(String to) {
 
 
-        int max_correct_char_count= 0;
-        int max_correct_in_a_row_count = 0;
+        int max_score = 0;
         String most_correct_word = "";
 
         // check each word
         for(String word : words){
-            int correct_chr_count = 0;
-            int correct_in_a_row_count = 0;
+            int temp_score = 0;
+
+            boolean in_a_row = false;
 
             // correct word
-            for(int i = 0, position=0; i < word.length(); i++){
-                boolean in_a_row = false;
+            for(int i = 0, position = 0; i < word.length(); i++){
+
                 // input word
                 for(int j = position; j < to.length(); j++){
 
                     // correct char found in second word
                     if(word.charAt(i) == to.charAt(j)){
-                        correct_chr_count++;
+                        temp_score++;
 
+                        // extra point for in a row
                         if(in_a_row)
-                            correct_in_a_row_count++;
+                            temp_score++;
                         else
                             in_a_row = true;
 
-                        // save word position
+                        // save word position and letters not getting double counted
                         position = j;
-                    }
-                    else{
-                        in_a_row = false;
-                    }
 
-
+                        // break for time complexity
+                        break;
+                    }
+                    // not found
+                    in_a_row = false;
                 }
 
                 // most similar word found
-                double temp_to = (correct_chr_count + correct_in_a_row_count);
-                double max = (max_correct_char_count + max_correct_in_a_row_count);
-                if( temp_to > max ) {
+
+                double t = temp_score -  Math.abs( to.length() - word.length() );
+                double m = max_score - Math.abs( most_correct_word.length() - word.length() );
+
+
+
+                if( t > m ) {
                     most_correct_word = word;
-                    max_correct_char_count = correct_chr_count;
-                    max_correct_in_a_row_count = correct_in_a_row_count;
+                    max_score = temp_score;
                 }
 
-                System.out.println("most correct");
-                System.out.println(most_correct_word + " " +
-                        max_correct_char_count + " " +
-                        max_correct_in_a_row_count);
+
             }
         }
+        System.out.print("max: ");
+        System.out.println(most_correct_word + " " +
+                max_score );
+
+
         if(most_correct_word.equals(""))
             return null;
         else
