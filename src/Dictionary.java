@@ -45,12 +45,18 @@ public class Dictionary {
                 }
 
                 // most similar word found
-                if(correct_chr_count + correct_in_a_row_count >
-                        max_correct_char_count + max_correct_in_a_row_count){
+                double temp_to = (correct_chr_count + correct_in_a_row_count);
+                double max = (max_correct_char_count + max_correct_in_a_row_count);
+                if( temp_to > max ) {
                     most_correct_word = word;
                     max_correct_char_count = correct_chr_count;
                     max_correct_in_a_row_count = correct_in_a_row_count;
                 }
+
+                System.out.println("most correct");
+                System.out.println(most_correct_word + " " +
+                        max_correct_char_count + " " +
+                        max_correct_in_a_row_count);
             }
         }
         if(most_correct_word.equals(""))
