@@ -4,10 +4,13 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        Parser p = new Parser();
+        Dictionary fruits = new Dictionary(new String[]{"cherry", "pineapple", "melon", "strawberry", "raspberry"});
 
-        int num = p.parseInt("one two three");
-        System.out.println(num);
+        String x = fruits.findMostSimilar("strawbery"); // must return "strawberry"
+        String y = fruits.findMostSimilar("berry"); // must return "cherry"
+
+        System.out.println(x);
+        System.out.println(y);
     }
 
 

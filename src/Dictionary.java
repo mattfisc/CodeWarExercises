@@ -1,3 +1,4 @@
+// Did you mean
 public class Dictionary {
 
     private final String[] words;
@@ -9,22 +10,46 @@ public class Dictionary {
     public String findMostSimilar(String to) {
 
 
-        int max_correct_count = 0;
+        int max_correct_char_count= 0;
+        int max_correct_in_a_row_count = 0;
         String most_correct_word = "";
 
         // check each word
         for(String word : words){
-            int correct_count = 0;
+            int correct_chr_count = 0;
+            int correct_in_a_row_count = 0;
 
-            // check each letter in parameter word "to"
-            for(int char_index = 0; char_index < to.length(); char_index++){
-                if( word.charAt(char_index) == to.charAt(char_index) ){
-                    correct_count++;
-                    if(correct_count > max_correct_count){
-                        most_correct_word = word;
-                        max_correct_count = correct_count;
+            // correct word
+            for(int i = 0, position=0; i < word.length(); i++){
+                boolean in_a_row = false;
+                // input word
+                for(int j = position; j < to.length(); j++){
+
+                    // correct char found in second word
+                    if(word.charAt(i) == to.charAt(j)){
+                        correct_chr_count++;
+
+                        if(in_a_row)
+                            correct_in_a_row_count++;
+                        else
+                            in_a_row = true;
+
+                        // save word position
+                        position = j;
+                    }
+                    else{
+                        in_a_row = false;
                     }
 
+
+                }
+
+                // most similar word found
+                if(correct_chr_count + correct_in_a_row_count >
+                        max_correct_char_count + max_correct_in_a_row_count){
+                    most_correct_word = word;
+                    max_correct_char_count = correct_chr_count;
+                    max_correct_in_a_row_count = correct_in_a_row_count;
                 }
             }
         }
